@@ -37,12 +37,19 @@
       font-weight: 600;
       font-style: normal;
     }
+    /* APPLE GLYPHS FONT REGISTERED FROM ASSETS/GLYPHS */
+    @font-face {
+      font-family: 'AppleGlyphs';
+      src: url('assets/glyphs/AppleGlyphs.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
   </style>
 
   <style>
     :root {
       --bg-color: #000000;
-      --glass-bg: rgba(28, 28, 32, 0.65);
+      --glass-bg: rgba(28, 28, 32, 0.72);
       --glass-border: rgba(255, 255, 255, 0.12);
       --glass-border-hover: rgba(255, 42, 75, 0.45);
       --accent-red: #ff2a4b;
@@ -51,6 +58,7 @@
       --text-secondary: #a1a1a6;
       --font-sf: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-rounded: 'SF Pro Rounded', sans-serif;
+      --font-glyphs: 'AppleGlyphs', sans-serif;
     }
 
     * {
@@ -76,16 +84,28 @@
       background: radial-gradient(circle at 50% -20%, rgba(255, 42, 75, 0.15) 0%, transparent 60%), #000000;
     }
 
-    /* LIQUID GLASS AMBIENT BACKDROPS */
-    .ambient-glow {
+    /* RESTORED STATIC GRID BACKGROUND */
+    .bg-grid-container {
       position: absolute;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 42, 75, 0.12) 0%, transparent 70%);
-      filter: blur(80px);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
       z-index: 0;
       pointer-events: none;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+    }
+
+    .grid-lines {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: 60px 60px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 42, 75, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 42, 75, 0.05) 1px, transparent 1px);
     }
 
     /* HEADER - MACOS LIQUID GLASS DOCK / BAR */
@@ -117,13 +137,14 @@
       color: var(--text-primary);
     }
 
+    /* AVATAR SQUIRCLE WITH SOLID BACKGROUND BEHIND TRANSPARENT PNG */
     .avatar-squircle {
       width: 38px;
       height: 38px;
       border-radius: 10px;
-      background-color: rgba(255, 42, 75, 0.15);
-      border: 1px solid var(--accent-red);
-      box-shadow: 0 0 10px var(--accent-red-glow);
+      background-color: #12141c;
+      border: 1.5px solid var(--accent-red);
+      box-shadow: 0 0 12px var(--accent-red-glow);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -355,6 +376,7 @@
       transform: translateX(5px);
     }
 
+    /* UNBLURRED FIXED SCROLL INDICATOR */
     .scroll-indicator {
       position: absolute;
       bottom: 2.5rem;
@@ -365,9 +387,11 @@
       color: var(--text-secondary);
       font-size: 0.8rem;
       text-decoration: none;
-      opacity: 0.6;
+      opacity: 0.7;
       animation: bounce 2s infinite ease-in-out;
       transition: opacity 0.4s ease, color 0.2s ease;
+      filter: none !important;
+      -webkit-filter: none !important;
     }
 
     .scroll-indicator:hover {
@@ -381,29 +405,42 @@
       60% { transform: translateY(-3px); }
     }
 
-    /* APPLE LIQUID GLASS SECTIONS */
+    /* APPLE LIQUID GLASS SECTIONS WITH BACKGROUND IMAGES */
     .apple-section {
       position: relative;
       z-index: 2;
-      background: linear-gradient(180deg, #050508 0%, #0d0e14 50%, #050508 100%);
+      background: #050508;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
       padding: 8rem 1.5rem;
       overflow: hidden;
     }
 
-    .liquid-wave-layer {
+    /* Section Background Image Containers */
+    .section-bg-image {
       position: absolute;
-      bottom: 0;
+      top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
+      background-size: cover;
+      background-position: center;
       z-index: 0;
-      opacity: 0.5;
-      background: 
-        radial-gradient(circle at 15% 85%, rgba(255, 42, 75, 0.12) 0%, transparent 45%),
-        radial-gradient(circle at 85% 15%, rgba(100, 15, 30, 0.18) 0%, transparent 55%),
-        radial-gradient(circle at 50% 50%, rgba(20, 22, 32, 0.5) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* About Website Background: Dimmed without blur */
+    .about-web-bg {
+      background-image: url('assets/images/aboutweb.webp');
+      filter: brightness(0.35);
+      -webkit-filter: brightness(0.35);
+    }
+
+    /* About Me Background: Dimmed AND blurred */
+    .about-me-bg {
+      background-image: url('assets/images/aboutme.webp');
+      filter: blur(12px) brightness(0.35);
+      -webkit-filter: blur(12px) brightness(0.35);
+      transform: scale(1.05);
     }
 
     .content-container {
@@ -424,7 +461,7 @@
       text-shadow: 0 0 20px rgba(255, 42, 75, 0.3);
     }
 
-    /* LIQUID GLASS CARD (APPLE HIG STYLE) */
+    /* LIQUID GLASS CARD */
     .apple-glass-card {
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
@@ -442,7 +479,7 @@
       transform: translateY(-3px);
     }
 
-    /* ABOUT THIS WEBSITE */
+    /* WEBSITE SPEC */
     .website-spec-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -455,6 +492,17 @@
       color: var(--accent-red);
       font-size: 1.15rem;
       margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* GLYPH ICON FONT HELPER */
+    .glyph-icon {
+      font-family: var(--font-glyphs);
+      font-size: 1.2rem;
+      font-style: normal;
+      color: var(--accent-red);
     }
 
     .spec-item p {
@@ -463,7 +511,7 @@
       line-height: 1.6;
     }
 
-    /* ABOUT ME SECTION WITH PFP.JPG */
+    /* ABOUT ME SECTION */
     .about-me-layout {
       display: flex;
       flex-direction: column;
@@ -515,37 +563,67 @@
       margin-bottom: 1.5rem;
     }
 
+    /* SOCIALS WITH ICON TOOLTIPS (HOVER SHOWS NAME) */
     .social-icons-grid {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.8rem;
+      gap: 1rem;
       margin-top: 1rem;
     }
 
-    .social-badge-btn {
-      display: inline-flex;
+    .social-icon-btn {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1.2rem;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      justify-content: center;
       color: var(--text-primary);
       text-decoration: none;
-      font-size: 0.88rem;
-      font-weight: 500;
+      font-size: 1.3rem;
       transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
-    .social-badge-btn:hover {
+    .social-icon-btn:hover {
       background: var(--accent-red);
       border-color: var(--accent-red);
       box-shadow: 0 0 20px var(--accent-red-glow);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      color: #ffffff;
     }
 
-    /* DISCORD PROMO SECTION WITH GIF & BACKGROUND */
+    /* Tooltip text showing name on hover */
+    .social-icon-btn::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: -36px;
+      left: 50%;
+      transform: translateX(-50%) translateY(5px);
+      background: rgba(15, 17, 23, 0.95);
+      color: #ffffff;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      z-index: 10;
+    }
+
+    .social-icon-btn:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* DISCORD PROMO SECTION WITH BALANCED BACKGROUND */
     .discord-card-wrapper {
       position: relative;
       border-radius: 28px;
@@ -561,7 +639,7 @@
       transform: translateY(-3px);
     }
 
-    /* Background image with blur for discord card */
+    /* Balanced Discord background: distinct yet balanced readability */
     .discord-bg-image {
       position: absolute;
       top: 0;
@@ -571,8 +649,9 @@
       background-image: url('assets/images/discordbackground.png');
       background-size: cover;
       background-position: center;
-      filter: blur(15px) brightness(0.4);
-      transform: scale(1.1);
+      filter: blur(8px) brightness(0.5);
+      -webkit-filter: blur(8px) brightness(0.5);
+      transform: scale(1.05);
       z-index: 0;
     }
 
@@ -654,8 +733,10 @@
 </head>
 <body>
 
-  <!-- AMBIENT LIQUID GLOW -->
-  <div class="ambient-glow" style="top: 10%; left: 20%;"></div>
+  <!-- RESTORED STATIC GRID BACKGROUND -->
+  <div class="bg-grid-container">
+    <div class="grid-lines"></div>
+  </div>
 
   <!-- MACOS LIQUID GLASS HEADER -->
   <header>
@@ -697,16 +778,16 @@
       </a>
     </div>
 
-    <!-- SCROLL INDICATOR -->
+    <!-- FIXED UNBLURRED SCROLL INDICATOR -->
     <a href="#about-website" id="scrollIndicator" class="scroll-indicator fade-in-blur delay-3">
       <span>Scroll for intel</span>
       ▼
     </a>
   </section>
 
-  <!-- SECTION 1: ABOUT THIS WEBSITE (APPLE LIQUID GLASS) -->
+  <!-- SECTION 1: ABOUT THIS WEBSITE (WITH ABOUTWEB.WEBP BACKGROUND) -->
   <section id="about-website" class="apple-section">
-    <div class="liquid-wave-layer"></div>
+    <div class="section-bg-image about-web-bg"></div>
     <div class="content-container">
       <h2 class="section-title">About This Website</h2>
       <div class="apple-glass-card">
@@ -715,11 +796,11 @@
         </p>
         <div class="website-spec-grid">
           <div class="spec-item">
-            <h4>⚡ Direct Infrastructure</h4>
+            <h4><i class="glyph-icon">⚡</i> Direct Infrastructure</h4>
             <p>Hosted via GitHub Pages for instant global delivery and maximum uptime reliability.</p>
           </div>
           <div class="spec-item">
-            <h4>🛡️ 100% Privacy First</h4>
+            <h4><i class="glyph-icon">🛡️</i> 100% Privacy First</h4>
             <p>Zero ad trackers, zero telemetry collection, and clean direct installer links.</p>
           </div>
         </div>
@@ -727,9 +808,9 @@
     </div>
   </section>
 
-  <!-- SECTION 2: ABOUT ME (APPLE LIQUID GLASS WITH PFP.JPG) -->
+  <!-- SECTION 2: ABOUT ME (WITH ABOUTME.WEBP BLURRED & DIMMED BACKGROUND) -->
   <section id="about-me" class="apple-section">
-    <div class="liquid-wave-layer" style="transform: scaleY(-1);"></div>
+    <div class="section-bg-image about-me-bg"></div>
     <div class="content-container">
       <h2 class="section-title">About Me</h2>
       <div class="apple-glass-card">
@@ -747,17 +828,17 @@
             </p>
           </div>
 
-          <!-- Socials Connect Icons -->
+          <!-- SOCIALS WITH PLATFORM ICONS & HOVER TOOLTIPS -->
           <div style="width: 100%;">
             <p style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); margin-bottom: 0.8rem; font-weight: 500;">Connect With Me</p>
             <div class="social-icons-grid">
-              <a href="YOUR_INSTAGRAM_LINK" class="social-badge-btn" target="_blank">Instagram</a>
-              <a href="YOUR_THREADS_LINK" class="social-badge-btn" target="_blank">Threads</a>
-              <a href="YOUR_TIKTOK_LINK" class="social-badge-btn" target="_blank">TikTok</a>
-              <a href="YOUR_YOUTUBE_LINK" class="social-badge-btn" target="_blank">YouTube</a>
-              <a href="YOUR_LINKTREE_LINK" class="social-badge-btn" target="_blank">Linktree</a>
-              <a href="YOUR_GITHUB_LINK" class="social-badge-btn" target="_blank">GitHub</a>
-              <a href="YOUR_DISCORD_SERVER_LINK" class="social-badge-btn" target="_blank">Discord Server</a>
+              <a href="YOUR_INSTAGRAM_LINK" class="social-icon-btn" data-tooltip="Instagram" target="_blank"><i class="glyph-icon">📸</i></a>
+              <a href="YOUR_THREADS_LINK" class="social-icon-btn" data-tooltip="Threads" target="_blank"><i class="glyph-icon">🧵</i></a>
+              <a href="YOUR_TIKTOK_LINK" class="social-icon-btn" data-tooltip="TikTok" target="_blank"><i class="glyph-icon">🎵</i></a>
+              <a href="YOUR_YOUTUBE_LINK" class="social-icon-btn" data-tooltip="YouTube" target="_blank"><i class="glyph-icon">▶️</i></a>
+              <a href="YOUR_LINKTREE_LINK" class="social-icon-btn" data-tooltip="Linktree" target="_blank"><i class="glyph-icon">🌳</i></a>
+              <a href="YOUR_GITHUB_LINK" class="social-icon-btn" data-tooltip="GitHub" target="_blank"><i class="glyph-icon">🐙</i></a>
+              <a href="YOUR_DISCORD_SERVER_LINK" class="social-icon-btn" data-tooltip="Discord Server" target="_blank"><i class="glyph-icon">💬</i></a>
             </div>
           </div>
         </div>
@@ -765,21 +846,19 @@
     </div>
   </section>
 
-  <!-- SECTION 3: DISCORD SERVER PROMO (WITH DISCORD.GIF & DISCORDBACKGROUND.PNG) -->
+  <!-- SECTION 3: DISCORD SERVER PROMO (WITH BALANCED BACKGROUND) -->
   <section id="discord-server" class="apple-section">
-    <div class="liquid-wave-layer"></div>
     <div class="content-container">
       <h2 class="section-title">Community Server</h2>
       
       <div class="discord-card-wrapper">
-        <!-- Blurred Background Image -->
         <div class="discord-bg-image"></div>
         
         <div class="discord-card-content">
           <!-- Discord GIF Avatar -->
           <div class="discord-gif-avatar">
             <img src="assets/images/discord.gif" alt="Discord Server Icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <span style="display:none; color: #5865F2; font-size: 1.5rem;">💬</span>
+            <span style="display:none; color: #5865F2; font-size: 1.5rem;"><i class="glyph-icon">💬</i></span>
           </div>
           <div>
             <h3 style="font-family: var(--font-rounded); font-size: 1.6rem; margin-bottom: 0.5rem; color: #ffffff;">Join the Proto-Hub Community</h3>
@@ -809,7 +888,7 @@
         scrollIndicator.style.opacity = '0';
         scrollIndicator.style.pointerEvents = 'none';
       } else {
-        scrollIndicator.style.opacity = '0.6';
+        scrollIndicator.style.opacity = '0.7';
         scrollIndicator.style.pointerEvents = 'auto';
       }
     });
