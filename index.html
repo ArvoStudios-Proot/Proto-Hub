@@ -49,11 +49,11 @@
   <style>
     :root {
       --bg-color: #000000;
-      --glass-bg: rgba(22, 24, 32, 0.65);
-      --glass-border: rgba(255, 255, 255, 0.1);
-      --glass-border-hover: rgba(255, 42, 75, 0.4);
+      --glass-bg: rgba(22, 24, 32, 0.68);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --glass-border-hover: rgba(255, 42, 75, 0.45);
       --accent-red: #ff2a4b;
-      --accent-red-glow: rgba(255, 42, 75, 0.3);
+      --accent-red-glow: rgba(255, 42, 75, 0.35);
       --text-primary: #f5f5f7;
       --text-secondary: #a1a1a6;
       --font-sf: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -84,7 +84,7 @@
       background-color: var(--bg-color);
     }
 
-    /* STATIC GRID BACKGROUND */
+    /* RESTORED STATIC GRID BACKGROUND AT THE TOP */
     .bg-grid-container {
       position: absolute;
       top: 0;
@@ -400,45 +400,51 @@
       60% { transform: translateY(-3px); }
     }
 
-    /* APPLE LIQUID GLASS SECTIONS WITH OVERLAPPING WAVE TRANSITIONS */
+    /* APPLE LIQUID GLASS SECTIONS WITH REAL SVG OVERLAPPING WAVES */
     .apple-section {
       position: relative;
       z-index: 2;
-      padding: 9rem 1.5rem;
+      padding: 10rem 1.5rem 8rem 1.5rem;
       overflow: hidden;
     }
 
-    /* Distinct Apple-themed wave shading gradients per section */
-    .section-wave-1 {
-      background: linear-gradient(180deg, #000000 0%, #0a0c14 30%, #111420 100%);
-      border-top: 1px solid rgba(255, 42, 75, 0.15);
-    }
-
-    .section-wave-2 {
-      background: linear-gradient(180deg, #111420 0%, #161a2b 30%, #0d0f17 100%);
-    }
-
-    .section-wave-3 {
-      background: linear-gradient(180deg, #0d0f17 0%, #121522 30%, #050608 100%);
-    }
-
-    /* Curvature Wave Divider Top Mask */
-    .apple-section::before {
-      content: '';
+    /* Wave SVG Divider at the Top of Each Section */
+    .wave-divider {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 60px;
-      background: radial-gradient(ellipse at 50% 0%, rgba(255, 42, 75, 0.08) 0%, transparent 70%);
+      overflow: hidden;
+      line-height: 0;
+      z-index: 1;
       pointer-events: none;
+    }
+
+    .wave-divider svg {
+      position: relative;
+      display: block;
+      width: calc(100% + 1.3px);
+      height: 75px;
+    }
+
+    /* Distinct Apple-themed wave shading sections */
+    .section-wave-1 {
+      background: #0a0c14;
+    }
+
+    .section-wave-2 {
+      background: #131622;
+    }
+
+    .section-wave-3 {
+      background: #0d0f19;
     }
 
     .content-container {
       max-width: 850px;
       margin: 0 auto;
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
     .section-title {
@@ -719,7 +725,7 @@
 </head>
 <body>
 
-  <!-- STATIC GRID BACKGROUND -->
+  <!-- RESTORED STATIC GRID BACKGROUND AT THE TOP -->
   <div class="bg-grid-container">
     <div class="grid-lines"></div>
   </div>
@@ -771,9 +777,15 @@
     </a>
   </section>
 
-  <!-- SECTION 1: ABOUT THIS WEBSITE (OVERLAPPING WAVE GRADIENT + ABOUTWEB.WEBP) -->
+  <!-- SECTION 1: ABOUT THIS WEBSITE (WITH OVERLAPPING SVG WAVE & ABOUTWEB.WEBP) -->
   <section id="about-website" class="apple-section section-wave-1">
+    <div class="wave-divider">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0 C150,90 350,-40 500,60 C650,160 900,10 1200,40 L1200,0 L0,0 Z" fill="#000000" opacity="0.85"></path>
+      </svg>
+    </div>
     <div style="position: absolute; top:0; left:0; width:100%; height:100%; background-image: url('assets/images/aboutweb.webp'); background-size: cover; background-position: center; filter: brightness(0.35); -webkit-filter: brightness(0.35); z-index:0; pointer-events:none;"></div>
+    
     <div class="content-container">
       <h2 class="section-title">About This Website</h2>
       <div class="apple-glass-card">
@@ -794,9 +806,15 @@
     </div>
   </section>
 
-  <!-- SECTION 2: ABOUT ME (OVERLAPPING WAVE GRADIENT + ABOUTME.WEBP) -->
+  <!-- SECTION 2: ABOUT ME (WITH OVERLAPPING SVG WAVE & ABOUTME.WEBP) -->
   <section id="about-me" class="apple-section section-wave-2">
+    <div class="wave-divider">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,20 C300,100 600,-20 900,80 C1050,130 1150,30 1200,10 L1200,0 L0,0 Z" fill="#0a0c14" opacity="0.9"></path>
+      </svg>
+    </div>
     <div style="position: absolute; top:0; left:0; width:100%; height:100%; background-image: url('assets/images/aboutme.webp'); background-size: cover; background-position: center; filter: blur(12px) brightness(0.35); -webkit-filter: blur(12px) brightness(0.35); transform: scale(1.05); z-index:0; pointer-events:none;"></div>
+    
     <div class="content-container">
       <h2 class="section-title">About Me</h2>
       <div class="apple-glass-card">
@@ -832,8 +850,14 @@
     </div>
   </section>
 
-  <!-- SECTION 3: DISCORD SERVER PROMO (OVERLAPPING WAVE GRADIENT) -->
+  <!-- SECTION 3: DISCORD SERVER PROMO (WITH OVERLAPPING SVG WAVE) -->
   <section id="discord-server" class="apple-section section-wave-3">
+    <div class="wave-divider">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,50 C200,-30 500,110 800,20 C1000,-20 1150,70 1200,40 L1200,0 L0,0 Z" fill="#131622" opacity="0.9"></path>
+      </svg>
+    </div>
+    
     <div class="content-container">
       <h2 class="section-title">Community Server</h2>
       
