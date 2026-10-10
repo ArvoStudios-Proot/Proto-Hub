@@ -49,11 +49,11 @@
   <style>
     :root {
       --bg-color: #000000;
-      --glass-bg: rgba(28, 28, 32, 0.72);
-      --glass-border: rgba(255, 255, 255, 0.12);
-      --glass-border-hover: rgba(255, 42, 75, 0.45);
+      --glass-bg: rgba(22, 24, 32, 0.65);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-border-hover: rgba(255, 42, 75, 0.4);
       --accent-red: #ff2a4b;
-      --accent-red-glow: rgba(255, 42, 75, 0.35);
+      --accent-red-glow: rgba(255, 42, 75, 0.3);
       --text-primary: #f5f5f7;
       --text-secondary: #a1a1a6;
       --font-sf: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -81,10 +81,10 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      background: radial-gradient(circle at 50% -20%, rgba(255, 42, 75, 0.15) 0%, transparent 60%), #000000;
+      background-color: var(--bg-color);
     }
 
-    /* RESTORED STATIC GRID BACKGROUND */
+    /* STATIC GRID BACKGROUND */
     .bg-grid-container {
       position: absolute;
       top: 0;
@@ -108,7 +108,7 @@
         linear-gradient(to bottom, rgba(255, 42, 75, 0.05) 1px, transparent 1px);
     }
 
-    /* HEADER - MACOS LIQUID GLASS DOCK / BAR */
+    /* HEADER - MACOS LIQUID GLASS DOCK */
     header {
       position: fixed;
       top: 16px;
@@ -137,7 +137,6 @@
       color: var(--text-primary);
     }
 
-    /* AVATAR SQUIRCLE WITH SOLID BACKGROUND BEHIND TRANSPARENT PNG */
     .avatar-squircle {
       width: 38px;
       height: 38px;
@@ -248,7 +247,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 8rem 1.5rem 3rem 1.5rem;
+      padding: 8rem 1.5rem 4rem 1.5rem;
       position: relative;
       z-index: 2;
     }
@@ -285,7 +284,6 @@
       line-height: 1.08;
       max-width: 900px;
       letter-spacing: -0.5px;
-      position: relative;
     }
 
     .hero-title span {
@@ -299,10 +297,8 @@
       max-width: 600px;
       line-height: 1.5;
       margin-bottom: 2.5rem;
-      font-weight: 400;
     }
 
-    /* APPLE PILL ACTION BUTTON WITH SHINE */
     .btn-action {
       position: relative;
       display: inline-flex;
@@ -376,10 +372,9 @@
       transform: translateX(5px);
     }
 
-    /* UNBLURRED FIXED SCROLL INDICATOR */
     .scroll-indicator {
       position: absolute;
-      bottom: 2.5rem;
+      bottom: 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -405,42 +400,38 @@
       60% { transform: translateY(-3px); }
     }
 
-    /* APPLE LIQUID GLASS SECTIONS WITH BACKGROUND IMAGES */
+    /* APPLE LIQUID GLASS SECTIONS WITH OVERLAPPING WAVE TRANSITIONS */
     .apple-section {
       position: relative;
       z-index: 2;
-      background: #050508;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 8rem 1.5rem;
+      padding: 9rem 1.5rem;
       overflow: hidden;
     }
 
-    /* Section Background Image Containers */
-    .section-bg-image {
+    /* Distinct Apple-themed wave shading gradients per section */
+    .section-wave-1 {
+      background: linear-gradient(180deg, #000000 0%, #0a0c14 30%, #111420 100%);
+      border-top: 1px solid rgba(255, 42, 75, 0.15);
+    }
+
+    .section-wave-2 {
+      background: linear-gradient(180deg, #111420 0%, #161a2b 30%, #0d0f17 100%);
+    }
+
+    .section-wave-3 {
+      background: linear-gradient(180deg, #0d0f17 0%, #121522 30%, #050608 100%);
+    }
+
+    /* Curvature Wave Divider Top Mask */
+    .apple-section::before {
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      z-index: 0;
+      height: 60px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(255, 42, 75, 0.08) 0%, transparent 70%);
       pointer-events: none;
-    }
-
-    /* About Website Background: Dimmed without blur */
-    .about-web-bg {
-      background-image: url('assets/images/aboutweb.webp');
-      filter: brightness(0.35);
-      -webkit-filter: brightness(0.35);
-    }
-
-    /* About Me Background: Dimmed AND blurred */
-    .about-me-bg {
-      background-image: url('assets/images/aboutme.webp');
-      filter: blur(12px) brightness(0.35);
-      -webkit-filter: blur(12px) brightness(0.35);
-      transform: scale(1.05);
     }
 
     .content-container {
@@ -461,7 +452,7 @@
       text-shadow: 0 0 20px rgba(255, 42, 75, 0.3);
     }
 
-    /* LIQUID GLASS CARD */
+    /* APPLE LIQUID GLASS CARD */
     .apple-glass-card {
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
@@ -479,7 +470,6 @@
       transform: translateY(-3px);
     }
 
-    /* WEBSITE SPEC */
     .website-spec-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -497,7 +487,6 @@
       gap: 0.5rem;
     }
 
-    /* GLYPH ICON FONT HELPER */
     .glyph-icon {
       font-family: var(--font-glyphs);
       font-size: 1.2rem;
@@ -563,7 +552,6 @@
       margin-bottom: 1.5rem;
     }
 
-    /* SOCIALS WITH ICON TOOLTIPS (HOVER SHOWS NAME) */
     .social-icons-grid {
       display: flex;
       flex-wrap: wrap;
@@ -596,7 +584,6 @@
       color: #ffffff;
     }
 
-    /* Tooltip text showing name on hover */
     .social-icon-btn::after {
       content: attr(data-tooltip);
       position: absolute;
@@ -623,7 +610,7 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    /* DISCORD PROMO SECTION WITH BALANCED BACKGROUND */
+    /* DISCORD PROMO SECTION */
     .discord-card-wrapper {
       position: relative;
       border-radius: 28px;
@@ -639,7 +626,6 @@
       transform: translateY(-3px);
     }
 
-    /* Balanced Discord background: distinct yet balanced readability */
     .discord-bg-image {
       position: absolute;
       top: 0;
@@ -733,7 +719,7 @@
 </head>
 <body>
 
-  <!-- RESTORED STATIC GRID BACKGROUND -->
+  <!-- STATIC GRID BACKGROUND -->
   <div class="bg-grid-container">
     <div class="grid-lines"></div>
   </div>
@@ -785,9 +771,9 @@
     </a>
   </section>
 
-  <!-- SECTION 1: ABOUT THIS WEBSITE (WITH ABOUTWEB.WEBP BACKGROUND) -->
-  <section id="about-website" class="apple-section">
-    <div class="section-bg-image about-web-bg"></div>
+  <!-- SECTION 1: ABOUT THIS WEBSITE (OVERLAPPING WAVE GRADIENT + ABOUTWEB.WEBP) -->
+  <section id="about-website" class="apple-section section-wave-1">
+    <div style="position: absolute; top:0; left:0; width:100%; height:100%; background-image: url('assets/images/aboutweb.webp'); background-size: cover; background-position: center; filter: brightness(0.35); -webkit-filter: brightness(0.35); z-index:0; pointer-events:none;"></div>
     <div class="content-container">
       <h2 class="section-title">About This Website</h2>
       <div class="apple-glass-card">
@@ -808,9 +794,9 @@
     </div>
   </section>
 
-  <!-- SECTION 2: ABOUT ME (WITH ABOUTME.WEBP BLURRED & DIMMED BACKGROUND) -->
-  <section id="about-me" class="apple-section">
-    <div class="section-bg-image about-me-bg"></div>
+  <!-- SECTION 2: ABOUT ME (OVERLAPPING WAVE GRADIENT + ABOUTME.WEBP) -->
+  <section id="about-me" class="apple-section section-wave-2">
+    <div style="position: absolute; top:0; left:0; width:100%; height:100%; background-image: url('assets/images/aboutme.webp'); background-size: cover; background-position: center; filter: blur(12px) brightness(0.35); -webkit-filter: blur(12px) brightness(0.35); transform: scale(1.05); z-index:0; pointer-events:none;"></div>
     <div class="content-container">
       <h2 class="section-title">About Me</h2>
       <div class="apple-glass-card">
@@ -846,8 +832,8 @@
     </div>
   </section>
 
-  <!-- SECTION 3: DISCORD SERVER PROMO (WITH BALANCED BACKGROUND) -->
-  <section id="discord-server" class="apple-section">
+  <!-- SECTION 3: DISCORD SERVER PROMO (OVERLAPPING WAVE GRADIENT) -->
+  <section id="discord-server" class="apple-section section-wave-3">
     <div class="content-container">
       <h2 class="section-title">Community Server</h2>
       
