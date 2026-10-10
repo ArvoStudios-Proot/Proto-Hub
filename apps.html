@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proto-Hub | App Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0b0c10;
+      --card-bg: rgba(22, 24, 33, 0.7);
+      --card-border: rgba(255, 42, 75, 0.2);
+      --card-border-hover: rgba(255, 42, 75, 0.6);
+      --accent-red: #ff2a4b;
+      --accent-red-glow: rgba(255, 42, 75, 0.4);
+      --text-primary: #f0f3f8;
+      --text-secondary: #94a3b8;
+      --font-heading: 'Orbitron', sans-serif;
+      --font-body: 'Space Grotesk', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: 
+        radial-gradient(circle at 50% 0%, rgba(255, 42, 75, 0.12) 0%, transparent 60%),
+        var(--bg-color);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(11, 12, 16, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0.8rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .avatar-squircle {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background-color: rgba(255, 42, 75, 0.15);
+      border: 1.5px solid var(--accent-red);
+      box-shadow: 0 0 10px var(--accent-red-glow);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-squircle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-fallback {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      color: var(--accent-red);
+    }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #ffffff 30%, var(--accent-red) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--accent-red);
+    }
+
+    /* MAIN CONTENT */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 7rem 1.5rem 4rem 1.5rem;
+      width: 100%;
+      flex: 1;
+    }
+
+    .page-header {
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    .page-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .page-title span {
+      color: var(--accent-red);
+      text-shadow: 0 0 15px var(--accent-red-glow);
+    }
+
+    .page-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+    }
+
+    /* SEARCH BAR */
+    .search-container {
+      margin-bottom: 3rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      background: rgba(22, 24, 33, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-red);
+      box-shadow: 0 0 15px var(--accent-red-glow);
+    }
+
+    /* APP GRID */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .app-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(10px);
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .app-card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-4px);
+    }
+
+    .app-card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .app-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: rgba(255, 42, 75, 0.15);
+      border: 1px solid var(--accent-red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .app-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-title {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .app-version {
+      font-size: 0.8rem;
+      color: var(--accent-red);
+      font-weight: 600;
+    }
+
+    .app-description {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+
+    .app-tags {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--accent-red);
+      color: #ffffff;
+      padding: 0.8rem 1.2rem;
+      border-radius: 10px;
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px var(--accent-red-glow);
+    }
+
+    .btn-download:hover {
+      background: #ff4360;
+      box-shadow: 0 0 25px rgba(255, 42, 75, 0.7);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      background: rgba(11, 12, 16, 0.95);
+    }
+
+    .footer-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a href="index.html" class="brand">
+      <div class="avatar-squircle">
+        <img src="avatar.png" alt="Protogen Avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <span class="avatar-fallback" style="display: none;">P</span>
+      </div>
+      <span class="brand-title">PROTO-HUB</span>
+    </a>
+    <nav>
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="apps.html" class="nav-link active">App Store</a>
+    </nav>
+  </header>
+
+  <!-- MAIN APP STORE -->
+  <main>
+    <div class="page-header">
+      <h1 class="page-title">Cyber <span>App Store</span></h1>
+      <p class="page-subtitle">Select a project below to download direct ad-free installers.</p>
+    </div>
+
+    <!-- SEARCH BAR -->
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search apps..." onkeyup="filterApps()">
+    </div>
+
+    <!-- APP CARDS GRID -->
+    <div class="app-grid" id="appGrid">
+
+      <!-- APP CARD 1 (EXAMPLE) -->
+      <div class="app-card">
+        <div class="app-card-header">
+          <div class="app-icon">⚡</div>
+          <div class="app-meta">
+            <h2 class="app-title">Example Utility</h2>
+            <span class="app-version">v1.0.0</span>
+          </div>
+        </div>
+        <p class="app-description">
+          A handy system utility tool built to optimize daily tasks. Direct fast downloads with zero ads.
+        </p>
+        <div class="app-tags">
+          <span class="tag">Windows</span>
+          <span class="tag">Utility</span>
+        </div>
+        <!-- REPLACE THE href BELOW WITH YOUR ACTUAL GITHUB RELEASE LINK -->
+        <a href="https://github.com/YOUR_USERNAME/YOUR_REPO/releases/download/v1.0.0/app.zip" class="btn-download" download>
+          Download (.zip)
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p class="footer-text">© Proto-Hub • Direct GitHub Release Downloads</p>
+  </footer>
+
+  <script>
+    /* Simple dynamic live search filter */
+    function filterApps() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.getElementsByClassName('app-card');
+
+      for (let i = 0; i < cards.length; i++) {
+        const title = cards[i].querySelector('.app-title').innerText.toLowerCase();
+        const desc = cards[i].querySelector('.app-description').innerText.toLowerCase();
+        if (title.includes(input) || desc.includes(input)) {
+          cards[i].style.display = "flex";
+        } else {
+          cards[i].style.display = "none";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
