@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proto-Hub | Cyberware & Apps</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* -------------------------------------------------------------
+       GLOBAL STYLES & RED / OBSIDIAN THEME
+    ------------------------------------------------------------- */
+    :root {
+      --bg-color: #0b0c10;
+      --card-bg: rgba(22, 24, 33, 0.7);
+      --card-border: rgba(255, 42, 75, 0.2);
+      --card-border-hover: rgba(255, 42, 75, 0.6);
+      --accent-red: #ff2a4b;
+      --accent-red-glow: rgba(255, 42, 75, 0.4);
+      --text-primary: #f0f3f8;
+      --text-secondary: #94a3b8;
+      --font-heading: 'Orbitron', sans-serif;
+      --font-body: 'Space Grotesk', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: 
+        radial-gradient(circle at 50% 0%, rgba(255, 42, 75, 0.12) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(255, 42, 75, 0.05) 0%, transparent 50%),
+        var(--bg-color);
+      overflow-x: hidden;
+    }
+
+    /* -------------------------------------------------------------
+       HEADER & NAVIGATION
+    ------------------------------------------------------------- */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(11, 12, 16, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0.8rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    /* Avatar Squircle Icon Container */
+    .avatar-squircle {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background-color: rgba(255, 42, 75, 0.15);
+      border: 1.5px solid var(--accent-red);
+      box-shadow: 0 0 10px var(--accent-red-glow);
+      object-fit: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .avatar-squircle:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 16px var(--accent-red);
+    }
+
+    .avatar-squircle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Fallback text inside squircle if PNG is missing */
+    .avatar-fallback {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      color: var(--accent-red);
+      font-size: 1rem;
+    }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #ffffff 30%, var(--accent-red) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      font-size: 0.95rem;
+    }
+
+    .nav-link:hover {
+      color: var(--accent-red);
+    }
+
+    /* -------------------------------------------------------------
+       HERO SECTION (ABOVE THE FOLD)
+    ------------------------------------------------------------- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 1.5rem 2rem 1.5rem;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      background: rgba(255, 42, 75, 0.1);
+      border: 1px solid rgba(255, 42, 75, 0.3);
+      color: var(--accent-red);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-red);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-red);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+      max-width: 850px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero-title span {
+      color: var(--accent-red);
+      text-shadow: 0 0 20px var(--accent-red-glow);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-secondary);
+      max-width: 600px;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Primary Action Button */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--accent-red);
+      color: #ffffff;
+      padding: 1rem 2.2rem;
+      border-radius: 12px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      letter-spacing: 1px;
+      box-shadow: 0 0 25px var(--accent-red-glow);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid var(--accent-red);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 0 35px rgba(255, 42, 75, 0.7);
+      background: #ff4360;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+
+    .scroll-indicator:hover {
+      opacity: 1;
+      color: var(--accent-red);
+    }
+
+    /* -------------------------------------------------------------
+       SCROLL DOWN CONTENT: ABOUT ME & ABOUT WEBSITE
+    ------------------------------------------------------------- */
+    .content-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 5rem 1.5rem;
+      width: 100%;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .info-card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-4px);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent-red);
+      margin-bottom: 0.8rem;
+    }
+
+    .card-text {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-size: 0.98rem;
+    }
+
+    /* -------------------------------------------------------------
+       FOOTER
+    ------------------------------------------------------------- */
+    footer {
+      margin-top: auto;
+      border-top: 1px solid var(--card-border);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      background: rgba(11, 12, 16, 0.95);
+    }
+
+    .footer-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-badge {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: rgba(255, 42, 75, 0.8);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVIGATION HEADER -->
+  <header>
+    <a href="index.html" class="brand">
+      <!-- SQUIRCLE AVATAR ICON PLACEHOLDER -->
+      <div class="avatar-squircle">
+        <img src="avatar.png" alt="Protogen Avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <span class="avatar-fallback" style="display: none;">P</span>
+      </div>
+      <span class="brand-title">PROTO-HUB</span>
+    </a>
+    <nav>
+      <a href="#about" class="nav-link">About</a>
+      <a href="apps.html" class="nav-link">App Store</a>
+    </nav>
+  </header>
+
+  <!-- MAIN HERO SECTION -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      100% Free & Ad-Free Hub
+    </div>
+    <h1 class="hero-title">Welcome to <span>Proto-Hub</span></h1>
+    <p class="hero-subtitle">
+      A digital vault hosting custom apps, utilities, and experimental software built by a friendly Protogen developer.
+    </p>
+    
+    <!-- MAIN CTA BUTTON -->
+    <a href="apps.html" class="btn-primary">
+      Head to App Store &rarr;
+    </a>
+
+    <!-- SCROLL INDICATOR -->
+    <a href="#about" class="scroll-indicator">
+      <span>Scroll for info</span>
+      ▼
+    </a>
+  </section>
+
+  <!-- ABOUT & PURPOSE SECTION -->
+  <section id="about" class="content-section">
+    <h2 class="section-title">System Intel</h2>
+    
+    <div class="grid-container">
+      <!-- ABOUT ME CARD -->
+      <div class="info-card">
+        <div class="card-icon">⚙️</div>
+        <h3 class="card-title">About the Creator</h3>
+        <p class="card-text">
+          Hey there! I'm a red Protogen creator who loves coding software, utilities, and fun interactive projects. Programming is my passion, and this hub is my personal cozy corner on the web where I can publish everything I make directly to you.
+        </p>
+      </div>
+
+      <!-- ABOUT WEBSITE CARD -->
+      <div class="info-card">
+        <div class="card-icon">🚀</div>
+        <h3 class="card-title">About This Website</h3>
+        <p class="card-text">
+          Proto-Hub is built with zero bloatware, zero ad trackers, and no middleman download timers. Every application hosted here is free to grab and served directly via GitHub Releases for maximum speed, privacy, and security.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-text">© Proto-Hub. Built with precision & high-tech visor energy.</p>
+    <span class="footer-badge">Hosted via GitHub Pages • Direct Releases</span>
+  </footer>
+
+</body>
+</html>
