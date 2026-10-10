@@ -7,16 +7,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
-    /* -------------------------------------------------------------
-       GLOBAL STYLES & RED / OBSIDIAN THEME
-    ------------------------------------------------------------- */
     :root {
       --bg-color: #0b0c10;
-      --card-bg: rgba(22, 24, 33, 0.7);
-      --card-border: rgba(255, 42, 75, 0.2);
-      --card-border-hover: rgba(255, 42, 75, 0.6);
+      --card-bg: rgba(22, 24, 33, 0.85);
+      --card-bg-back: rgba(28, 18, 25, 0.95);
+      --card-border: rgba(255, 42, 75, 0.25);
+      --card-border-hover: rgba(255, 42, 75, 0.8);
       --accent-red: #ff2a4b;
+      --accent-red-hover: #ff0033;
       --accent-red-glow: rgba(255, 42, 75, 0.4);
       --text-primary: #f0f3f8;
       --text-secondary: #94a3b8;
@@ -41,25 +41,59 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background: 
-        radial-gradient(circle at 50% 0%, rgba(255, 42, 75, 0.12) 0%, transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(255, 42, 75, 0.05) 0%, transparent 50%),
-        var(--bg-color);
+      position: relative;
       overflow-x: hidden;
+      background-color: var(--bg-color);
     }
 
-    /* -------------------------------------------------------------
-       HEADER & NAVIGATION
-    ------------------------------------------------------------- */
+    .hero-grid-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      background-image: 
+        linear-gradient(to right, rgba(255, 42, 75, 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 42, 75, 0.07) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 100%);
+      animation: gridGlow 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes gridGlow {
+      0% { opacity: 0.6; filter: blur(0px); }
+      100% { opacity: 1; filter: blur(1px); }
+    }
+
+    /* Wave gradient transitioning into subtle dark grays */
+    .bg-wave-transition {
+      position: absolute;
+      top: 75vh;
+      left: 0;
+      width: 100%;
+      height: 50vh;
+      z-index: 0;
+      pointer-events: none;
+      background: linear-gradient(180deg, 
+        transparent 0%, 
+        rgba(18, 20, 28, 0.8) 40%, 
+        rgba(15, 17, 23, 0.95) 70%,
+        var(--bg-color) 100%
+      );
+    }
+
     header {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       z-index: 100;
-      background: rgba(11, 12, 16, 0.8);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(11, 12, 16, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--card-border);
       padding: 0.8rem 2rem;
       display: flex;
@@ -75,15 +109,13 @@
       color: var(--text-primary);
     }
 
-    /* Avatar Squircle Icon Container */
     .avatar-squircle {
       width: 42px;
       height: 42px;
       border-radius: 12px;
       background-color: rgba(255, 42, 75, 0.15);
       border: 1.5px solid var(--accent-red);
-      box-shadow: 0 0 10px var(--accent-red-glow);
-      object-fit: cover;
+      box-shadow: 0 0 12px var(--accent-red-glow);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -93,7 +125,7 @@
 
     .avatar-squircle:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 16px var(--accent-red);
+      box-shadow: 0 0 18px var(--accent-red);
     }
 
     .avatar-squircle img {
@@ -102,12 +134,11 @@
       object-fit: cover;
     }
 
-    /* Fallback text inside squircle if PNG is missing */
     .avatar-fallback {
       font-family: var(--font-heading);
       font-weight: 800;
       color: var(--accent-red);
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
 
     .brand-title {
@@ -118,6 +149,43 @@
       background: linear-gradient(135deg, #ffffff 30%, var(--accent-red) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+    }
+
+    /* Top Status Indicator Badge */
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 20px;
+      background: rgba(255, 42, 75, 0.1);
+      border: 1px solid rgba(255, 42, 75, 0.3);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-red);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-red);
+      animation: pulseDot 1.8s infinite;
+    }
+
+    @keyframes pulseDot {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 42, 75, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(255, 42, 75, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 42, 75, 0); }
     }
 
     nav {
@@ -138,10 +206,9 @@
       color: var(--accent-red);
     }
 
-    /* -------------------------------------------------------------
-       HERO SECTION (ABOVE THE FOLD)
-    ------------------------------------------------------------- */
     .hero {
+      position: relative;
+      z-index: 1;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -149,87 +216,103 @@
       justify-content: center;
       text-align: center;
       padding: 6rem 1.5rem 2rem 1.5rem;
-      position: relative;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 1rem;
-      border-radius: 20px;
-      background: rgba(255, 42, 75, 0.1);
-      border: 1px solid rgba(255, 42, 75, 0.3);
-      color: var(--accent-red);
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      margin-bottom: 1.5rem;
-      text-transform: uppercase;
-    }
-
-    .hero-badge-dot {
-      width: 8px;
-      height: 8px;
-      background-color: var(--accent-red);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--accent-red);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { opacity: 0.4; }
-      50% { opacity: 1; }
-      100% { opacity: 0.4; }
     }
 
     .hero-title {
       font-family: var(--font-heading);
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-size: clamp(2.5rem, 6vw, 4.8rem);
       font-weight: 900;
       line-height: 1.1;
       margin-bottom: 1.2rem;
-      max-width: 850px;
+      max-width: 900px;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
     }
 
     .hero-title span {
       color: var(--accent-red);
-      text-shadow: 0 0 20px var(--accent-red-glow);
+      text-shadow: 0 0 25px var(--accent-red-glow);
     }
 
     .hero-subtitle {
-      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
       color: var(--text-secondary);
-      max-width: 600px;
+      max-width: 680px;
       line-height: 1.6;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2.8rem;
+      font-weight: 400;
     }
 
-    /* Primary Action Button */
-    .btn-primary {
+    /* Interactive Outline Button with Solid Fill & Shine */
+    .btn-outline-shine {
+      position: relative;
       display: inline-flex;
       align-items: center;
       gap: 0.8rem;
-      background: var(--accent-red);
-      color: #ffffff;
-      padding: 1rem 2.2rem;
+      padding: 1rem 2.4rem;
       border-radius: 12px;
       font-family: var(--font-heading);
       font-weight: 700;
       font-size: 1rem;
       text-decoration: none;
       letter-spacing: 1px;
-      box-shadow: 0 0 25px var(--accent-red-glow);
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+      background: transparent;
+      border: 2px solid var(--accent-red);
+      box-shadow: 0 0 15px rgba(255, 42, 75, 0.15);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      cursor: pointer;
     }
 
-    .btn-primary:hover {
+    /* Metallic Shine Effect Overlay */
+    .btn-outline-shine::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.6) 50%,
+        transparent 100%
+      );
+      transform: skewX(-25deg);
+      transition: none;
+      pointer-events: none;
+    }
+
+    /* Button Hover Transitions */
+    .btn-outline-shine:hover {
+      color: #ffffff;
+      background: var(--accent-red);
+      border-color: var(--accent-red);
+      box-shadow: 0 0 35px var(--accent-red-glow), 0 0 15px var(--accent-red);
       transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 0 35px rgba(255, 42, 75, 0.7);
-      background: #ff4360;
+    }
+
+    /* Trigger Shine Animation on Hover */
+    .btn-outline-shine:hover::before {
+      animation: shineSweep 0.75s ease-in-out forwards;
+    }
+
+    @keyframes shineSweep {
+      0% { left: -100%; }
+      100% { left: 200%; }
+    }
+
+    /* Vector Arrow Icon Styling */
+    .btn-icon-svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-outline-shine:hover .btn-icon-svg {
+      transform: translateX(5px);
     }
 
     .scroll-indicator {
@@ -243,7 +326,7 @@
       font-size: 0.85rem;
       text-decoration: none;
       opacity: 0.7;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.3s ease, color 0.3s ease;
     }
 
     .scroll-indicator:hover {
@@ -251,13 +334,12 @@
       color: var(--accent-red);
     }
 
-    /* -------------------------------------------------------------
-       SCROLL DOWN CONTENT: ABOUT ME & ABOUT WEBSITE
-    ------------------------------------------------------------- */
     .content-section {
-      max-width: 1000px;
+      position: relative;
+      z-index: 1;
+      max-width: 1050px;
       margin: 0 auto;
-      padding: 5rem 1.5rem;
+      padding: 5rem 1.5rem 8rem 1.5rem;
       width: 100%;
     }
 
@@ -266,34 +348,83 @@
       font-size: 1.8rem;
       font-weight: 800;
       text-transform: uppercase;
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
       text-align: center;
       letter-spacing: 1px;
     }
 
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+      perspective: 1200px; /* Essential for 3D card flip */
     }
 
-    .info-card {
-      background: var(--card-bg);
+    /* 3D Flip Card Container */
+    .flip-card {
+      background-color: transparent;
+      height: 320px;
+      perspective: 1000px;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+      transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1), box-shadow 0.3s ease;
+      transform-style: preserve-3d;
+      border-radius: 18px;
+    }
+
+    /* Hover State: Lifts up and Flips 180deg */
+    .flip-card:hover .flip-card-inner {
+      transform: translateY(-12px) rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 18px;
+      padding: 2.2rem;
+      display: flex;
+      flex-direction: column;
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 2rem;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      transition: border-color 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
-    .info-card:hover {
-      border-color: var(--card-border-hover);
-      transform: translateY(-4px);
+    /* Card Front Side */
+    .card-front {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Card Back Side */
+    .card-back {
+      background: var(--card-bg-back);
+      border-color: var(--accent-red);
+      transform: rotateY(180deg);
+      box-shadow: 0 0 25px var(--accent-red-glow);
+    }
+
+    .flip-hint {
+      margin-top: auto;
+      font-size: 0.78rem;
+      color: var(--accent-red);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
     .card-icon {
-      font-size: 2rem;
+      font-size: 2.2rem;
       margin-bottom: 1rem;
     }
 
@@ -307,17 +438,36 @@
 
     .card-text {
       color: var(--text-secondary);
-      line-height: 1.7;
+      line-height: 1.65;
       font-size: 0.98rem;
     }
 
-    /* -------------------------------------------------------------
-       FOOTER
-    ------------------------------------------------------------- */
+    .tech-specs-list {
+      list-style: none;
+      margin-top: 0.5rem;
+    }
+
+    .tech-specs-list li {
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tech-specs-list li::before {
+      content: "▹";
+      color: var(--accent-red);
+      font-weight: bold;
+    }
+
     footer {
+      position: relative;
+      z-index: 1;
       margin-top: auto;
       border-top: 1px solid var(--card-border);
-      padding: 2rem 1.5rem;
+      padding: 2.2rem 1.5rem;
       text-align: center;
       background: rgba(11, 12, 16, 0.95);
     }
@@ -331,7 +481,7 @@
     .footer-badge {
       display: inline-block;
       font-size: 0.8rem;
-      color: rgba(255, 42, 75, 0.8);
+      color: rgba(255, 42, 75, 0.85);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -340,36 +490,42 @@
 </head>
 <body>
 
-  <!-- TOP NAVIGATION HEADER -->
+  <!-- BACKGROUND GRID & GRADIENTS -->
+  <div class="hero-grid-bg"></div>
+  <div class="bg-wave-transition"></div>
+
   <header>
     <a href="index.html" class="brand">
-      <!-- SQUIRCLE AVATAR ICON PLACEHOLDER -->
       <div class="avatar-squircle">
         <img src="avatar.png" alt="Protogen Avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
         <span class="avatar-fallback" style="display: none;">P</span>
       </div>
       <span class="brand-title">PROTO-HUB</span>
     </a>
-    <nav>
-      <a href="#about" class="nav-link">About</a>
-      <a href="apps.html" class="nav-link">App Store</a>
-    </nav>
+    <div class="nav-right">
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        Server Active
+      </div>
+      <nav>
+        <a href="#about" class="nav-link">About</a>
+        <a href="apps.html" class="nav-link">App Store</a>
+      </nav>
+    </div>
   </header>
 
-  <!-- MAIN HERO SECTION -->
   <section class="hero">
-    <div class="hero-badge">
-      <span class="hero-badge-dot"></span>
-      100% Free & Ad-Free Hub
-    </div>
     <h1 class="hero-title">Welcome to <span>Proto-Hub</span></h1>
     <p class="hero-subtitle">
-      A digital vault hosting custom apps, utilities, and experimental software built by a friendly Protogen developer.
+      A web store hosting all of my apps, utilitys, and software, all built from a protogen developer
     </p>
     
-    <!-- MAIN CTA BUTTON -->
-    <a href="apps.html" class="btn-primary">
-      Head to App Store &rarr;
+    <!-- CTA SHINE BUTTON -->
+    <a href="apps.html" class="btn-outline-shine">
+      <span>Head to App Store</span>
+      <svg class="btn-icon-svg" viewBox="0 0 24 24">
+        <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </a>
 
     <!-- SCROLL INDICATOR -->
@@ -379,35 +535,77 @@
     </a>
   </section>
 
-  <!-- ABOUT & PURPOSE SECTION -->
   <section id="about" class="content-section">
     <h2 class="section-title">System Intel</h2>
     
     <div class="grid-container">
-      <!-- ABOUT ME CARD -->
-      <div class="info-card">
-        <div class="card-icon">⚙️</div>
-        <h3 class="card-title">About the Creator</h3>
-        <p class="card-text">
-          Hey there! I'm a red Protogen creator who loves coding software, utilities, and fun interactive projects. Programming is my passion, and this hub is my personal cozy corner on the web where I can publish everything I make directly to you.
-        </p>
+      
+      <!-- ABOUT ME CARD (FLIP & LIFT) -->
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <!-- FRONT SIDE -->
+          <div class="card-front">
+            <div class="card-icon">⚙️</div>
+            <h3 class="card-title">About Me</h3>
+            <p class="card-text">
+              Hey! I'm a red Protogen software creator who loves building fun, useful applications, digital tools, and experimental projects.
+            </p>
+            <div class="flip-hint">
+              <span>Hover to flip card</span> ↻
+            </div>
+          </div>
+          <!-- BACK SIDE -->
+          <div class="card-back">
+            <h3 class="card-title">Creator Specs</h3>
+            <ul class="tech-specs-list">
+              <li>Persona: Cyber Red Protogen</li>
+              <li>Focus: Utilities & Custom Software</li>
+              <li>Philosophy: Free, ad-free & direct</li>
+              <li>Repository: Powered by GitHub Releases</li>
+            </ul>
+            <div class="flip-hint" style="margin-top: auto;">
+              <span>Move cursor off to flip back</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- ABOUT WEBSITE CARD -->
-      <div class="info-card">
-        <div class="card-icon">🚀</div>
-        <h3 class="card-title">About This Website</h3>
-        <p class="card-text">
-          Proto-Hub is built with zero bloatware, zero ad trackers, and no middleman download timers. Every application hosted here is free to grab and served directly via GitHub Releases for maximum speed, privacy, and security.
-        </p>
+      <!-- ABOUT WEBSITE CARD (FLIP & LIFT) -->
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <!-- FRONT SIDE -->
+          <div class="card-front">
+            <div class="card-icon">🚀</div>
+            <h3 class="card-title">About This Website</h3>
+            <p class="card-text">
+              Proto-Hub is built with zero trackers, zero intrusive ads, and no middleman download timers. Fast and clean.
+            </p>
+            <div class="flip-hint">
+              <span>Hover to flip card</span> ↻
+            </div>
+          </div>
+          <!-- BACK SIDE -->
+          <div class="card-back">
+            <h3 class="card-title">Architecture Specs</h3>
+            <ul class="tech-specs-list">
+              <li>Hosting: GitHub Pages Static CDN</li>
+              <li>Storage: Direct GitHub Releases</li>
+              <li>Security: 100% Ad-Free & Clean SSL</li>
+              <li>Limit: Zero Egress Download Fees</li>
+            </ul>
+            <div class="flip-hint" style="margin-top: auto;">
+              <span>Move cursor off to flip back</span>
+            </div>
+          </div>
+        </div>
       </div>
+
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <p class="footer-text">© Proto-Hub. Built with precision & high-tech visor energy.</p>
-    <span class="footer-badge">Hosted via GitHub Pages • Direct Releases</span>
+    <span class="footer-badge">Server Active • Direct GitHub Releases</span>
   </footer>
 
 </body>
