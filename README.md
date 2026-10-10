@@ -25,32 +25,6 @@ Access the official web app directly at:
 
 ---
 
-## 📁 Repository Structure
-
-```text
-Proto-Hub/
-├── index.html     # Cyberpunk Landing Page with 3D Flip Cards & CTA Button
-├── apps.html      # App Store Catalog & Direct Download Page
-├── avatar.png     # Protogen Avatar Icon (Squircle Header Branding)
-└── README.md      # Repository Documentation
-```
-
----
-
-## 🚀 How to Add New Apps
-
-1. Go to **Releases** → **Draft a new release**.
-2. Tag your version (e.g., `v1.0.0`) and attach your compiled binary (`.exe`, `.zip`, `.apk`, etc.).
-3. Publish the release and copy the direct download link.
-4. Edit `apps.html` in this repo and paste the link into the desired app card's `href` attribute:
-
-```html
-<a href="https://github.com/astrodev-lab/Proto-Hub/releases/download/v1.0.0/your-app.zip" class="btn-download" download>
-  Download (.zip)
-</a>
-```
-
----
 
 <p align="center">
   <i>Maintained with high-tech visor energy by AstroDev • Powered by GitHub Pages</i>
